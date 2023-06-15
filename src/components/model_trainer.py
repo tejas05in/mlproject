@@ -35,14 +35,16 @@ class ModelTrainer:
                 test_arr[:,-1]
             )
             models = {
-                'Linear Regression': LinearRegression(),
-                'K-Neighbors Regressor': KNeighborsRegressor(),
                 'Decision Tree': DecisionTreeRegressor(),
                 'Random Forest': RandomForestRegressor(),
-                'XGBoost': XGBRegressor(),
-                'Ada Boost': AdaBoostRegressor(),
                 'Gradient Boosting': GradientBoostingRegressor(),
-                'CatBoosting': CatBoostRegressor(verbose=False),   
+                'Linear Regression': LinearRegression(),
+                'XGBRegressor': XGBRegressor(),
+                'CatBoosting Regressor': CatBoostRegressor(verbose=False),
+                'AdaBoost Regressor': AdaBoostRegressor(),
+                'K-Neighbors Regressor': KNeighborsRegressor(),              
+                
+                  
             }
             params={
                 "Decision Tree": {
@@ -78,12 +80,18 @@ class ModelTrainer:
                     'learning_rate':[.1,.01,0.5,.001],
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8,16,32,64,128,256]
+                },
+                'K-Neighbors Regressor':{
+                    'n_neighbors':[2,3,4,5,6,7],
+                    'weights':['uniform','distance'],
+                    'leaf_size':[20,30,40,50],
+                    'p':[1,2]
                 }
                 
             }
             
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
-                                             models=models,param=params)
+                                             models=models,params=params)
             #To get the best model score from dict
             best_model_score = max(sorted(model_report.values()))
             
